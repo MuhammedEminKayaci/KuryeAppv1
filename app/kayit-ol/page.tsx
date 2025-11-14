@@ -1,16 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabase";
 import { CourierForm } from "./_components/CourierForm";
 import { BusinessForm } from "./_components/BusinessForm";
+import { RoleParamHandler } from "./_components/RoleParamHandler";
 import type { RoleType, CourierRegistration, BusinessRegistration } from "../../types/registration";
 
 export default function KayitOlPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://kurye-app-dusky.vercel.app";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,14 +21,6 @@ export default function KayitOlPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [sessionUserId, setSessionUserId] = useState<string | null>(null);
   const [sessionEmail, setSessionEmail] = useState<string | null>(null);
-
-  // URL'den rol parametresini al (rol-sec sayfasından geliyorsa)
-  useEffect(() => {
-    const roleParam = searchParams.get('role');
-    if (roleParam === 'kurye' || roleParam === 'isletme') {
-      setRole(roleParam);
-    }
-  }, [searchParams]);
 
   // On mount check if already authenticated (Google dönüşü vs.)
   useEffect(() => {
@@ -200,6 +192,9 @@ export default function KayitOlPage() {
 
   return (
     <main className="relative min-h-dvh w-full overflow-hidden bg-[#ff7a00]">
+      <Suspense fallback={null}>
+        <RoleParamHandler setRole={setRole} />
+      </Suspense>
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-16 -left-16 w-72 h-72 rounded-full bg-white/15 blur-2xl animate-float-slow" />
         <div className="absolute bottom-12 -right-8 w-56 h-56 rounded-full bg-white/10 blur-xl animate-pulse-soft" />
