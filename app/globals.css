@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+/* Removed @theme inline to avoid unknown at-rule errors in some CSS parsers. */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Pointer cursor for clickable buttons and links */
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+a.button, .btn, .primary-btn { cursor: pointer; }
+
+/* ---------- Custom animations & helpers ---------- */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: .45; }
+  50% { opacity: .7; }
+}
+
+.fade-up { animation: fade-up .7s ease-out both; }
+.animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
+.animate-pulse-soft { animation: pulse-soft 6s ease-in-out infinite; }
+
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+/* Neon text effect */
+.neon-text {
+  color: #fff;
+  text-shadow: 0 0 4px rgba(255,255,255,0.8),
+               0 0 10px rgba(255,255,255,0.9),
+               0 0 20px rgba(255,255,255,0.85),
+               0 0 35px rgba(255,122,0,0.9),
+               0 0 60px rgba(255,122,0,0.8),
+               0 0 90px rgba(255,122,0,0.6);
+  animation: neon-flicker 3s ease-in-out infinite;
+}
+
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 100% { opacity: 1; }
+  20%, 22% { opacity: 0.85; }
+}
+
+/* Spinner */
+.spinner {
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  border: 4px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Smooth focus rings for inputs */
+.input-field {
+  width: 100%;
+  border-radius: 0.75rem; /* rounded-xl */
+  padding: 0.5rem 0.75rem; /* py-2 px-3 */
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.input-field::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+}
+
+.primary-btn {
+  width: 100%;
+  border-radius: 9999px; /* rounded-full */
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -4px rgba(0,0,0,0.3);
+  transition: transform 0.15s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.primary-btn:hover { transform: translateY(1px); }
+.primary-btn:active { transform: scale(0.99); }
+.primary-btn:disabled { cursor: not-allowed; opacity: 0.7; }
+
